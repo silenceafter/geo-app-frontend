@@ -81,7 +81,7 @@ export const features = [
 
 export const location = { center: [37.95, 55.65], zoom: 7.5 };
 // apikey is only for codesandbox.io and xk3d74.csb.app
-export const apiKey = process.env.REACT_APP_API_YANDEX_KEY;
+export const apiKey = "6e7307ec-53ac-494a-991c-644146849367";
 
 export const points = [
   {

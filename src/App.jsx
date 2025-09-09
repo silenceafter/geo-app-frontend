@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import "../styles.css";
+import "./styles.css";
 import {
   YMap,
   YMapComponentsProvider,
@@ -18,8 +18,7 @@ import {
   YMapCustomClusterer,
   YMapMarker,
 } from "ymap3-components";
-import MyHint from "../utils/MyHint";
-import { location as LOCATION, features, apiKey, points } from "../utils/helpers";
+import { location as LOCATION, features, apiKey, points } from "./helpers";
 
 const MapLocation = ({ location }) => {
   return (
@@ -33,7 +32,7 @@ const MapLocation = ({ location }) => {
   );
 };
 
-function Map() {
+function App() {
   const [location, setLocation] = useState(LOCATION);
   const ymap3Ref = useRef();
 
@@ -102,61 +101,20 @@ function Map() {
   );
 
   return (
-    <div className="Map">
+    <div className="App">
       {/* <MapLocation location={location} /> */}
       <YMapComponentsProvider apiKey={apiKey} lang="ru_RU">
-        <YMap
-          key="map"
-          ref={ymap3Ref}
-          location={location}
-          mode="vector"
-          theme="dark"
-        >
-          <YMapCustomClusterer
-            marker={marker}
-            cluster={cluster}
-            gridSize={64}
-            features={points}
-          />
-          <YMapDefaultSchemeLayer />
-          <YMapDefaultFeaturesLayer />
-          <YMapListener onUpdate={onUpdate} />
-          <YMapDefaultMarker coordinates={LOCATION.center} />
-          <YMapControls position="bottom">
+        
+          <YMap location={{ center: [30.3158, 59.9343], zoom: 12 }}>
+            <YMapDefaultSchemeLayer />
+            <YMapDefaultFeaturesLayer />
+            <YMapMarker coordinates={[30.3158, 59.9343]} />
             <YMapZoomControl />
-          </YMapControls>
-          <YMapControls position="bottom left">
-            <YMapGeolocationControl />
-          </YMapControls>
-          <YMapHint hint={getHint}>
-            <MyHint />
-          </YMapHint>
-          <YMapCollection>
-            {features.map((feature) => (
-              <YMapFeature key={feature.id} {...feature} />
-            ))}
-          </YMapCollection>
-          <YMapControls position="top">
-            <YMapControlButton>
-              <div onClick={zoomIn} className="map-custom-button">
-                Custom zoom in
-              </div>
-            </YMapControlButton>
-            <YMapControlButton>
-              <div onClick={zoomOut} className="map-custom-button">
-                Custom zoom out
-              </div>
-            </YMapControlButton>
-          </YMapControls>
-          <YMapControls position="top left">
-            <YMapContainer>
-              <MapLocation location={location} />
-            </YMapContainer>
-          </YMapControls>
-        </YMap>
+          </YMap>
+       
       </YMapComponentsProvider>
     </div>
   );
 }
 
-export default Map;
+export default App;
