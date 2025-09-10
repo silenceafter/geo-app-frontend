@@ -3,10 +3,11 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 // 🔥 top-level await
-const [ymaps3Reactify, clustererModule, hintModule] = await Promise.all([
+const [ymaps3Reactify, clustererModule, hintModule, defaultUITheme] = await Promise.all([
   ymaps3.import('@yandex/ymaps3-reactify'),
   ymaps3.import('@yandex/ymaps3-clusterer@0.0.1'),
   ymaps3.import('@yandex/ymaps3-hint@0.0.1'),
+  ymaps3.import('@yandex/ymaps3-markers@0.0.1'),
   ymaps3.ready,
 ]);
 
@@ -21,10 +22,12 @@ export const {
   YMapMarker,
   YMapZoomControl,
   YMapContainer, 
+  YMapListener
 } = reactify.module(ymaps3);
 
 export const { YMapClusterer, clusterByGrid } = reactify.module(clustererModule);
 export const { YMapHint, YMapHintContext } = reactify.module(hintModule);
+export const {YMapDefaultMarker} = reactify.module(defaultUITheme);
 
 export const features = [
   {

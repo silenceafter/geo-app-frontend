@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState, useMemo, useContext } from "react";
 import "./styles.css";
+
 /*import {
   YMap,
   YMapComponentsProvider,
@@ -45,6 +46,7 @@ import { apiKey, YMap,
   YMapDefaultFeaturesLayer,
   YMapMarker,
   YMapZoomControl, YMapContainer,
+  YMapListener, YMapDefaultMarker,
 reactify, YMapClusterer, clusterByGrid, YMapHint, YMapHintContext } from "./helpers";
 
 // Словарь названий
@@ -95,7 +97,8 @@ function App() {
     return (
       <YMapMarker 
         key={feature.id} 
-        coordinates={feature.geometry.coordinates} 
+        coordinates={feature.geometry.coordinates}
+        properties={{ id: feature.id }}
         onMouseOver={() => markerMouseOver(id)}
         onMouseOut={() => markerMouseOut(id)} 
       >
@@ -163,12 +166,12 @@ function App() {
   );
 
   const features = [
-    { type: 'Feature', id: 'адмиралтейская', geometry: { type: 'Point', coordinates: [30.3158, 59.9343] }, properties: { name: 'marker', description: '' } },
-    { type: 'Feature', id: 'невский проспект', geometry: { type: 'Point', coordinates: [30.3200, 59.9400] }, properties: { name: 'marker', description: '' } },
-    { type: 'Feature', id: 'чёрная речка', geometry: { type: 'Point', coordinates: [30.248967, 59.983375] }, properties: { name: 'marker', description: '' } },
-    { type: 'Feature', id: 'купчино', geometry: { type: 'Point', coordinates: [30.3800, 59.8900] }, properties: { name: 'marker', description: '' } },
-    { type: 'Feature', id: 'приморская', geometry: { type: 'Point', coordinates: [30.1900, 59.9500] }, properties: { name: 'marker', description: '' } },
-    { type: 'Feature', id: 'петроградская', geometry: { type: 'Point', coordinates: [30.3000, 59.9600] }, properties: { name: 'marker', description: '' } },
+    { type: 'Feature', id: 'адмиралтейская', geometry: { type: 'Point', coordinates: [30.315096, 59.935979] }, properties: { name: 'marker', description: '' } },
+    { type: 'Feature', id: 'невский проспект', geometry: { type: 'Point', coordinates: [30.327107, 59.935481] }, properties: { name: 'marker', description: '' } },
+    { type: 'Feature', id: 'чёрная речка', geometry: { type: 'Point', coordinates: [30.300838, 59.985512] }, properties: { name: 'marker', description: '' } },
+    { type: 'Feature', id: 'купчино', geometry: { type: 'Point', coordinates: [30.375456, 59.829807] }, properties: { name: 'marker', description: '' } },
+    { type: 'Feature', id: 'приморская', geometry: { type: 'Point', coordinates: [30.234639, 59.948458] }, properties: { name: 'marker', description: '' } },
+    { type: 'Feature', id: 'петроградская', geometry: { type: 'Point', coordinates: [30.311509, 59.966398] }, properties: { name: 'marker', description: '' } },
   ];
 
   const gridSizedMethod = useMemo(() => clusterByGrid({gridSize: 64}), []);
@@ -189,6 +192,33 @@ const markerMouseOut = useCallback((id) => {
     }));
 }, []);
 
+const markersGeoJsonSource = [
+  { coordinates: [30.315096, 59.935979], title: 'Адмиралтейская', subtitle: '',
+    color: 'red',
+    size: 'normal',
+    iconName: 'fallback' },
+  { coordinates: [30.327107, 59.935481], title: 'Невский проспект', subtitle: '',
+    color: 'red',
+    size: 'normal',
+    iconName: 'fallback' },
+  { coordinates: [30.300838, 59.985512], title: 'Чёрная речка', subtitle: '',
+    color: 'red',
+    size: 'normal',
+    iconName: 'fallback' },
+  { coordinates: [30.375456, 59.829807], title: 'Купчино', subtitle: '',
+    color: 'red',
+    size: 'normal',
+    iconName: 'fallback' },
+  { coordinates: [30.234639, 59.948458], title: 'Приморская', subtitle: '',
+    color: 'red',
+    size: 'normal',
+    iconName: 'fallback' },
+  { coordinates: [30.311509, 59.966398], title: 'Петроградская', subtitle: '',
+    color: 'red',
+    size: 'normal',
+    iconName: 'fallback' }
+];
+
   return (
     <div className="App">
       {/*<MapLocation location={{center: [30.3158, 59.9343], zoom: 12}} />*/}
@@ -204,6 +234,11 @@ const markerMouseOut = useCallback((id) => {
               <YMapHint hint={getHint}>
                 123
               </YMapHint>
+
+              {markersGeoJsonSource.map((markerSource) => (
+                <YMapDefaultMarker {...markerSource} />
+              ))}
+              
               {/*<YMapMarker coordinates={[reactify.useDefault([30.3158, 59.9343])]} />
               <YMapMarker coordinates={reactify.useDefault([59.983375, 30.248967])} draggable={true}  />*/}
             </YMap>
